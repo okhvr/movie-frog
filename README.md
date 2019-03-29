@@ -1,6 +1,6 @@
 ### To run project please do:
 
-    `npm build`'
+    `npm run build`'
     builds frontend for production
     `node server.js`
     starts server on the port 3000 and renders app there
@@ -12,4 +12,3 @@
 
     `npm start`
     compiles your frontend changes in the run time, using webpack watch
-    
