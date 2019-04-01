@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "eslint src",
     "test": "jest",
-    "build-dev": "webpack --config webpack.config.js --mode=development",
-    "build": "webpack --config webpack.config.js --mode=production",
+    "build-dev": "set NODE_ENV=development && webpack --config webpack.config.js",
+    "build": "set NODE_ENV=production && webpack --config webpack.config.js",
     "start": "webpack-dev-server --open"
   },
   "author": "Olha Katsalap",
