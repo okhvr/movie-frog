@@ -1,19 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import 'bootstrap/dist/css/bootstrap.css';
 import './style.scss';
-import App from './App';
-// class App extends React.Component {
-//     render() {
-//         return (
-//            <div>Hello Olha</div>
-//         );
-//     }
-// }
-    
+
+import App from './App';    
 
 ReactDOM.render(
-    <div>
+    <main className="scene">
        <App/>
-    </div>,
+    </main>,
     document.getElementById('movie-app')
 );

@@ -1,0 +1,13 @@
+.block {
+    background-color: grey;
+    position: relative;
+    color: white;
+    padding: 10px 30px;
+
+  .bg-section {
+    max-width: 1080px;
+    margin: auto;
+    position: relative;
+    z-index: 2;
+  }
+}

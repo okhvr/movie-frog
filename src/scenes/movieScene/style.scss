@@ -1,0 +1,31 @@
+.block {
+  
+    background-color: grey;
+    position: relative;
+    color: white;
+    padding: 10px 30px;
+  
+    &.bg-block {
+      background-image: url("../../../pictures/bg-img.jpg");
+      background-size: cover;
+    }
+  
+    &:before {
+        content: "";
+        position: absolute;
+        left: 0; right: 0;
+        top: 0; bottom: 0;
+        background: rgba(0,0,0,.7);
+    }
+  }
+  
+  .bg-section,
+  .section {
+    max-width: 1080px;
+    margin: auto;
+  }
+  
+  .bg-section {
+    position: relative;
+    z-index: 2;
+  }

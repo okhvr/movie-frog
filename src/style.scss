@@ -1,3 +1,6 @@
-#movie-app {
-    background-color: antiquewhite;
+.scene {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
