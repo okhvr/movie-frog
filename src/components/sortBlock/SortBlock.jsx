@@ -9,7 +9,7 @@ export default class SortBlock extends Component {
         <div className="filter h5">
             Sort by
             <label htmlFor="release">
-                <input type="radio" id="release" name="sort" checked/>
+                <input type="radio" id="release" name="sort" defaultChecked/>
                 <span>release date</span>
             </label>
             <label htmlFor="raiting">

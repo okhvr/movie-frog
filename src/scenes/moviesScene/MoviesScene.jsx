@@ -8,6 +8,7 @@ import MoviesList from '../../components/moviesList/MoviesList';
 
 import { getMovies } from '../../api';
 import SortBlock from '../../components/sortBlock/SortBlock';
+import { tsImportEqualsDeclaration } from '@babel/types';
 
 export default class MoviesScene extends Component {
 
@@ -40,7 +41,7 @@ export default class MoviesScene extends Component {
         </div>
         <div className="subheader">
           <div className="bg-section">
-            <p className="h5">7 movies found</p>
+            <p className="h5">{this.state.movies.length} movies found</p>
             <SortBlock />
           </div>
         </div>
