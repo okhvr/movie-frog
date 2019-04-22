@@ -24,14 +24,14 @@ export default class MovieScene extends Component {
       this.loadMovie(this.props.match.params.id);
   }
 
-  refreshMovies = () => {
+  refreshMovies = async () => {
       this.setState({
-          movies: getMovies()
+          movies: await getMovies()
       });
   };
   
-  loadMovie = (id) => {
-    this.setState({movie: getMovie(id)});
+  loadMovie = async (id) => {
+    this.setState({movie: await getMovie(id)});
   }
 
   render() {
