@@ -1,0 +1,11 @@
+.filter {
+    display: flex;
+
+    input {
+        visibility: hidden;
+
+        &:checked + span {
+            color: red;
+        }
+    }
+ }

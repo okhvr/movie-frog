@@ -18,7 +18,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/,
+                test: /\.(scss|css)$/,
                 use: [
                     isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader', // translates CSS into CommonJS
@@ -26,13 +26,14 @@ module.exports = {
                 ]
             },
             {
-                test: /\.m?js$/,
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader'
+            },
+            {
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
+                    loader: 'babel-loader'
                 }
             },
         ]
