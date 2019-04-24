@@ -11,8 +11,8 @@ export default class App extends React.Component {
            <ErrorBoundary>
             <BrowserRouter>
                     <Switch>
-                        <Route path="/movies" exact={true} component={MoviesScene} />
                         <Route path="/movies/:id" component={MovieScene} />
+                        <Route path="/movies" exact={true} component={MoviesScene} />
                         <Redirect from="/" to="/movies" />
                     </Switch>
                     <Footer />
