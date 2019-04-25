@@ -6,7 +6,7 @@ export default class MovieFull extends Component {
     render() {
         const {movie} = this.props;
         return (
-            <div className="card mb-3">
+            <div className="card mb-3 bg-transparent">
                 <div className="row no-gutters">
                     <div className="col-md-4">
                         <img src={movie.poster_path} className="card-img" />

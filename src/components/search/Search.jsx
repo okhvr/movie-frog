@@ -3,7 +3,7 @@ import './style.scss';
 
 export default class Search extends Component {
   state = {
-    search: ''
+    search: this.props.searchInput || ''
   }
 
   changeSearch = (e) => {
@@ -23,12 +23,8 @@ export default class Search extends Component {
     }
   };
 
-  clickOptions = (name) => {
-    this.props.changeSearchBy(name);
-  };
-
   render() {
-    const {searchOptions} = this.props;
+    const {searchOptions, changeSearchBy} = this.props;
     return (
         <div>
         <h5>FIND YOUR MOVIE</h5>
@@ -54,7 +50,7 @@ export default class Search extends Component {
                     key={option.name}
                     type="button"
                     className={option.selected ? "btn btn-primary btn-sm margins" : "btn btn-secondary btn-sm margins"}
-                    onClick={() => this.clickOptions(option.name)}
+                    onClick={() => changeSearchBy(option)}
                   >{option.name.toUpperCase()}</button>
                 )}
               </div>

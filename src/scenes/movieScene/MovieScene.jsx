@@ -1,58 +1,80 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import './style.scss';
 
 import Header from '../../components/header/Header';
 import Search from '../../components/search/Search';
-import { getMovie, getMovies } from '../../api';
 import MovieFull from '../../components/movieFull/movieFull';
 import MoviesList from '../../components/moviesList/MoviesList';
+import { searchMovieActionCreatorAsync, searchActionCreatorAsync, searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreatorAsync } from '../../actions/movies';
 
-export default class MovieScene extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        movie: {},
-        movies: []
-    }
-  }
+class MovieScene extends Component {
 
   componentDidMount() {
       this.refreshMovies();
-      this.loadMovie(this.props.match.params.id);
+      this.props.getMovie(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id){
+       this.props.getMovie(this.props.match.params.id);
+    }
   }
 
   refreshMovies = async () => {
-      this.setState({
-          movies: await getMovies()
-      });
+    this.props.getMovies();
   };
-  
-  loadMovie = async (id) => {
-    this.setState({movie: await getMovie(id)});
-  }
+
+  search = (query) => {
+    this.props.searchQuery(query);
+    this.refreshMovies();
+  };
+
+  changeSearchBy = (option) => {
+    this.props.searchOptionSelected(option);
+  };
 
   render() {
+    const { movies, searchOptions, movie, query } = this.props;
     return (
       <>
         <div className="block bg-block">
           <section className="bg-section">
             <Header />
-            <Search />
-            <MovieFull movie={this.state.movie}/>
+            <Search searchOptions={searchOptions}
+              search={this.search}
+              searchInput={query}
+              changeSearchBy={this.changeSearchBy}/>
+            {movie ? <MovieFull movie={movie}/>: <div />}
           </section>         
         </div>
         <div className="subheader">
           <div className="bg-section">
-            <p className="h5">Find by (genre)</p>
+            <p className="h5">Find by genre</p>
           </div>
         </div>
         <section className="section">
-          <MoviesList movies={this.state.movies}/>
+          <MoviesList movies={movies}/>
         </section>
       </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const movies = state.movies.data;
+  const { searchOptions, query, movie } = state.movies;
+  return { movies, searchOptions, query, movie };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getMovies: (params) => dispatch(searchActionCreatorAsync(params)),
+    searchOptionSelected: (option) => dispatch(searchOptionSelectedActionCreatorAsync(option)),
+    searchQuery: (query) => dispatch(searchQueryChangedActionCreatorAsync(query)),
+    getMovie: (id) => dispatch(searchMovieActionCreatorAsync(id))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieScene);

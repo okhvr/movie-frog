@@ -1,102 +1,73 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import queryString from 'queryString';
 
 import './style.scss';
 
 import Header from '../../components/header/Header';
 import Search from '../../components/search/Search';
 import MoviesList from '../../components/moviesList/MoviesList';
-
-import { getMovies } from '../../api';
 import SortBlock from '../../components/sortBlock/SortBlock';
+import { searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreatorAsync, sortOptionSelectedActionCreatorAsync } from '../../actions/movies';
 
-const sortOptions= [
-  {
-    value: 'release_date',
-    label: 'release date'
-  },
-  {
-    value: 'vote_average',
-    label: 'raiting'
-  }
-];
-const searchOptions = [
-  {
-    name:'title',
-    selected: true
-  },
-  {
-    name: 'genres',
-    selected: false
-  }
-];
-
-export default class MoviesScene extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        movies: [],
-        sortOptions: sortOptions,
-        searchOptions: searchOptions,
-        sortBy: sortOptions[0],
-        search: '',
-    }
-  }
-
+class MoviesScene extends Component {
   componentDidMount() {
-      this.refreshMovies({sortBy: this.state.sortBy});
+    // var parsed = queryString.parse(this.props.location.search);
+    // console.log(this.props.location.search, parsed);
   }
 
-  refreshMovies = async () => {
-      const searchBy = this.state.searchOptions.find(o => o.selected);
-      const params = {
-        sortBy: this.state.sortBy,
-        searchBy: searchBy.name
-      };
-      if (this.state.search.length > 0) {
-        params.search = this.state.search
-      }
-      this.setState({
-          movies: await getMovies(params)
-      });
-  };
-
-  sort = (query) => {
-    this.setState({sortBy: query}, this.refreshMovies);
+  sort = (option) => {
+    this.props.sortOptionSelected(option);
   };
 
   search = (query) => {
-    this.setState({search: query}, this.refreshMovies);
+    this.props.searchQuery(query);
   };
 
   changeSearchBy = (option) => {
-    const searchOptions = this.state.searchOptions.map(o => o.selected = o.name === option);
-    this.setState(searchOptions);
+    this.props.searchOptionSelected(option);
   };
 
   render() {
+    const { movies, searchOptions, sortOptions, query } = this.props;
     return (
       <>
         <div className="block bg-block">
           <section className="bg-section">
             <Header />
-            <Search searchOptions={this.state.searchOptions}
+            <Search searchOptions={searchOptions}
               search={this.search}
+              searchInput={query}
               changeSearchBy={this.changeSearchBy}
             />
           </section>         
         </div>
         <div className="subheader">
           <div className="bg-section">
-            <p className="h5">{this.state.movies.length} movies found</p>
-            <SortBlock sort={this.sort} sortOptions={this.state.sortOptions}/>
+            <p className="h5">{movies.length} movies found</p>
+            <SortBlock sort={this.sort} sortOptions={sortOptions}/>
           </div>
         </div>
         <section className="section">
-          <MoviesList movies={this.state.movies}/>
+          <MoviesList movies={movies}/>
         </section>
     </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const movies = state.movies.data;
+  const { searchOptions, sortOptions, query } = state.movies;
+  return { movies, searchOptions, sortOptions, query };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    searchOptionSelected: (option) => dispatch(searchOptionSelectedActionCreatorAsync(option)),
+    sortOptionSelected: (option) => dispatch(sortOptionSelectedActionCreatorAsync(option)),  
+    searchQuery: (query) => dispatch(searchQueryChangedActionCreatorAsync(query))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesScene);

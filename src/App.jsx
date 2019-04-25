@@ -4,6 +4,7 @@ import MoviesScene from './scenes/moviesScene/MoviesScene';
 import MovieScene from './scenes/movieScene/MovieScene';
 import Footer from './components/footer/Footer';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
+import NotFound from './components/notFound/NotFound';
 
 export default class App extends React.Component {
     render() {
@@ -12,8 +13,10 @@ export default class App extends React.Component {
             <BrowserRouter>
                     <Switch>
                         <Route path="/movies/:id" component={MovieScene} />
-                        <Route path="/movies" exact={true} component={MoviesScene} />
-                        <Redirect from="/" to="/movies" />
+                        {/* <Route path="/movies?search=:search&searchBy=:searchBy&sortBy=:sortBy" component={MovieScene} /> */}
+                        <Redirect exact={true} from="/" to="/movies" />
+                        <Route path="/movies" component={MoviesScene} />
+                        <Route component={NotFound} />
                     </Switch>
                     <Footer />
             </BrowserRouter> 

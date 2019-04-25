@@ -12,7 +12,8 @@ module.exports = {
       path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        contentBase: './dist'
+        contentBase: './dist',
+        historyApiFallback: true
     },
     devtool: isDevelopment ? 'inline-source-map' : 'source-map',
     module: {
