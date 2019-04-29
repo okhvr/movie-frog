@@ -8,7 +8,7 @@ export default class MovieCard extends Component {
     render() {
         const {movie} = this.props;
         return (
-            <Link to={'/movies/' + movie.id}>
+            <Link to={'/movie/' + movie.id}>
                 <div className="card margins"style={{width: '18rem'}}>
                     <img src={movie.poster_path} className="card-img-top"/>
                     <div className="card-body">

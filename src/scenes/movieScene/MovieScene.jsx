@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import './style.scss';
 
 import Header from '../../components/header/Header';
-import Search from '../../components/search/Search';
 import MovieFull from '../../components/movieFull/movieFull';
 import MoviesList from '../../components/moviesList/MoviesList';
-import { searchMovieActionCreatorAsync, searchActionCreatorAsync, searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreatorAsync } from '../../actions/movies';
+import { searchMovieActionCreatorAsync } from '../../actions/movies';
 
 class MovieScene extends Component {
 
   componentDidMount() {
-      this.refreshMovies();
       this.props.getMovie(this.props.match.params.id);
   }
 
@@ -22,31 +21,17 @@ class MovieScene extends Component {
     }
   }
 
-  refreshMovies = async () => {
-    this.props.getMovies();
-  };
-
-  search = (query) => {
-    this.props.searchQuery(query);
-    this.refreshMovies();
-  };
-
-  changeSearchBy = (option) => {
-    this.props.searchOptionSelected(option);
-  };
-
   render() {
-    const { movies, searchOptions, movie, query } = this.props;
+    const { movies, movie } = this.props;
     return (
       <>
         <div className="block bg-block">
           <section className="bg-section">
             <Header />
-            <Search searchOptions={searchOptions}
-              search={this.search}
-              searchInput={query}
-              changeSearchBy={this.changeSearchBy}/>
-            {movie ? <MovieFull movie={movie}/>: <div />}
+            <Link to={'/'}>
+              <button className="btn btn-light btn-outline-danger toRight">Search</button>
+            </Link>
+            {movie ? <MovieFull movie={movie}/>: <div/>}
           </section>         
         </div>
         <div className="subheader">
@@ -55,7 +40,9 @@ class MovieScene extends Component {
           </div>
         </div>
         <section className="section">
-          <MoviesList movies={movies}/>
+          {movies.length > 0 ?
+          <MoviesList movies={movies}/>:
+          <div>No similar by genres movies</div>}
         </section>
       </>
     );
@@ -64,15 +51,12 @@ class MovieScene extends Component {
 
 function mapStateToProps(state) {
   const movies = state.movies.data;
-  const { searchOptions, query, movie } = state.movies;
-  return { movies, searchOptions, query, movie };
+  const movie = state.movies.movie;
+  return { movies, movie };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getMovies: (params) => dispatch(searchActionCreatorAsync(params)),
-    searchOptionSelected: (option) => dispatch(searchOptionSelectedActionCreatorAsync(option)),
-    searchQuery: (query) => dispatch(searchQueryChangedActionCreatorAsync(query)),
     getMovie: (id) => dispatch(searchMovieActionCreatorAsync(id))
   };
 }

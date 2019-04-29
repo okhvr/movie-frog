@@ -5,7 +5,12 @@ import './style.scss';
 export default class SortBlock extends Component {
 
     render() {
-        const {sortOptions, sort} = this.props;
+        const sortOptions = this.props.sortOptions.map(o => {
+            return {
+                ...o,
+                selected: this.props.selectedSortOption === o.value
+            };
+        });
         return (
             <div className="filter h5">
                 Sort by
@@ -16,7 +21,7 @@ export default class SortBlock extends Component {
                             id={option.value}
                             value={option.value}
                             name="sort"
-                            onChange={() => sort(option)}
+                            onChange={() => this.props.sort(option)}
                             checked={option.selected}
                         />
                         <span>{option.label}</span>

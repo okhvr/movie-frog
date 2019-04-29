@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import './style.scss';
 
 export default class Search extends Component {
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.searchInput !== this.props.searchInput){
+      this.setState({search: this.props.searchInput});
+    }
+  }
+
   state = {
-    search: this.props.searchInput || ''
+    search: this.props.searchInput
   }
 
   changeSearch = (e) => {
@@ -24,7 +31,12 @@ export default class Search extends Component {
   };
 
   render() {
-    const {searchOptions, changeSearchBy} = this.props;
+    const searchOptions = this.props.searchOptions.map(o => {
+        return {
+            name: o,
+            selected: this.props.selectedSearchOption === o
+        };
+    });
     return (
         <div>
         <h5>FIND YOUR MOVIE</h5>
@@ -50,7 +62,7 @@ export default class Search extends Component {
                     key={option.name}
                     type="button"
                     className={option.selected ? "btn btn-primary btn-sm margins" : "btn btn-secondary btn-sm margins"}
-                    onClick={() => changeSearchBy(option)}
+                    onClick={() => this.props.changeSearchBy(option)}
                   >{option.name.toUpperCase()}</button>
                 )}
               </div>

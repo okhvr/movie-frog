@@ -4,38 +4,31 @@ import {
     SORT_OPTION_SELECTED,
     SEARCH_QUERY_CHANGED,
     SEARCH_MOVIE_COMPLETED,
+    CLEAR_MOVIES,
+    CLEAR_SEARCH,
 } from '../actions/movies';
+import { searchOptions, sortOptions } from '../constants';
 
 const initialState = {
     data: [],
-    searchOptions: [
-        {
-            name: 'title',
-            selected: true,
-        },
-        {
-            name: 'genres',
-            selected: false,
-        },
-    ],
-    sortOptions: [
-        {
-            value: 'release_date',
-            label: 'release date',
-            selected: true,
-        },
-        {
-            value: 'vote_average',
-            label: 'raiting',
-            selected: false,
-        },
-    ],
+    searchOption: searchOptions[0],
+    sortOption: sortOptions[0].value,
     query: '',
     movie: null,
 };
 
 export default function movies(state = initialState, action) {
     switch (action.type) {
+    case CLEAR_MOVIES:
+        return {
+            ...state,
+            data: [],
+        };
+    case CLEAR_SEARCH:
+        return {
+            ...state,
+            query: '',
+        };
     case SEARCH_MOVIES_COMPLETED:
         return {
             ...state,
@@ -54,18 +47,12 @@ export default function movies(state = initialState, action) {
     case SEARCH_OPTION_SELECTED:
         return {
             ...state,
-            searchOptions: state.searchOptions.map((o) => {
-                o.selected = o.name === action.payload.name;
-                return o;
-            }),
+            searchOption: action.payload,
         };
     case SORT_OPTION_SELECTED:
         return {
             ...state,
-            sortOptions: state.sortOptions.map((o) => {
-                o.selected = o.value === action.payload.value;
-                return o;
-            }),
+            sortOption: action.payload,
         };
     default:
         return state;

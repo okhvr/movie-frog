@@ -3,9 +3,14 @@ import { getMovies, getMovie } from '../api';
 export const SEARCH_MOVIES_LOADING = 'SEARCH_MOVIES_LOADING';
 export const SEARCH_MOVIES_COMPLETED = 'SEARCH_MOVIES_COMPLETED';
 export const SEARCH_MOVIES_FAILED = 'SEARCH_MOVIES_FAILED';
+
+export const CLEAR_MOVIES = 'CLEAR_MOVIES';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';
+
 export const SEARCH_QUERY_CHANGED = 'SEARCH_QUERY_CHANGED';
 export const SEARCH_OPTION_SELECTED = 'SEARCH_OPTION_SELECTED';
 export const SORT_OPTION_SELECTED = 'SORT_OPTION_SELECTED';
+
 export const SEARCH_MOVIE_COMPLETED = 'SEARCH_MOVIE_COMPLETED';
 
 const searchLoadingActionCreator = () => ({
@@ -22,18 +27,22 @@ const searchFailedActionCreator = error => ({
     payload: error,
 });
 
-export const searchActionCreatorAsync = () => (dispatch, getState) => {
-    const state = getState().movies;
-    const params = {
-        sortBy: state.sortOptions.find(o => o.selected).value,
-        searchBy: state.searchOptions.find(o => o.selected).name,
-        search: state.query,
-    };
+const searchActionCreatorAsync = params => (dispatch) => {
     dispatch(searchLoadingActionCreator());
     return getMovies(params).then(
         movies => dispatch(searchCompletedActionCreator(movies)),
         error => dispatch(searchFailedActionCreator(error)),
     );
+};
+
+const searchDefaultActionCreatorAsync = () => (dispatch, getState) => {
+    const state = getState().movies;
+    const params = {
+        sortBy: state.sortOption,
+        searchBy: state.searchOption,
+        search: state.query,
+    };
+    dispatch(searchActionCreatorAsync(params));
 };
 
 const searchQueryChangedActionCreator = query => ({
@@ -43,27 +52,27 @@ const searchQueryChangedActionCreator = query => ({
 
 export const searchQueryChangedActionCreatorAsync = query => (dispatch) => {
     dispatch(searchQueryChangedActionCreator(query));
-    return dispatch(searchActionCreatorAsync());
+    return dispatch(searchDefaultActionCreatorAsync());
 };
 
-const searchOptionSelectedActionCreator = option => ({
+export const searchOptionSelectedActionCreator = option => ({
     type: SEARCH_OPTION_SELECTED,
     payload: option,
 });
 
 export const searchOptionSelectedActionCreatorAsync = query => (dispatch) => {
     dispatch(searchOptionSelectedActionCreator(query));
-    return dispatch(searchActionCreatorAsync());
+    return dispatch(searchDefaultActionCreatorAsync());
 };
 
-const sortOptionSelectedActionCreator = option => ({
+export const sortOptionSelectedActionCreator = option => ({
     type: SORT_OPTION_SELECTED,
     payload: option,
 });
 
 export const sortOptionSelectedActionCreatorAsync = option => (dispatch) => {
     dispatch(sortOptionSelectedActionCreator(option));
-    return dispatch(searchActionCreatorAsync());
+    return dispatch(searchDefaultActionCreatorAsync());
 };
 
 export const searchMovieActionCreator = movie => ({
@@ -72,5 +81,16 @@ export const searchMovieActionCreator = movie => ({
 });
 
 export const searchMovieActionCreatorAsync = id => dispatch => getMovie(id).then(
-    movie => dispatch(searchMovieActionCreator(movie)),
+    (movie) => {
+        dispatch(searchActionCreatorAsync({ filter: movie.genres }));
+        dispatch(searchMovieActionCreator(movie));
+    },
 );
+
+export const clearMoviesActionCreator = () => ({
+    type: CLEAR_MOVIES,
+});
+
+export const clearSearchQueryActionCreator = () => ({
+    type: CLEAR_SEARCH,
+});

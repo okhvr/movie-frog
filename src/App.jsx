@@ -12,10 +12,9 @@ export default class App extends React.Component {
            <ErrorBoundary>
             <BrowserRouter>
                     <Switch>
-                        <Route path="/movies/:id" component={MovieScene} />
-                        {/* <Route path="/movies?search=:search&searchBy=:searchBy&sortBy=:sortBy" component={MovieScene} /> */}
-                        <Redirect exact={true} from="/" to="/movies" />
-                        <Route path="/movies" component={MoviesScene} />
+                        <Route path="/movie/:id" component={MovieScene} />
+                        <Route exact={true} path="/" component={MoviesScene} />
+                        <Route path="/search/:query" component={MoviesScene} />
                         <Route component={NotFound} />
                     </Switch>
                     <Footer />
