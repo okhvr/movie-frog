@@ -6,7 +6,7 @@ export default class Header extends Component {
   render() {
     return (
         <nav className="navbar-dark">
-            <Link to={'/movies'}>
+            <Link to={'/'}>
                 <span className="navbar-brand mb-0 h1">moviefrogsroulette</span>
             </Link>
         </nav>

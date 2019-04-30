@@ -17,6 +17,13 @@ class MoviesScene extends Component {
     this.search(query);
   }
 
+  componentDidUpdate(prevProps) {
+    const url = this.props.match.url;
+    if (url ==='/' && url !== prevProps.match.url){
+      this.search('');
+    }
+  }
+
   sort = (option) => {
     if (!!this.props.query) {
       this.props.sortOptionSelectAndSearch(option.value);
