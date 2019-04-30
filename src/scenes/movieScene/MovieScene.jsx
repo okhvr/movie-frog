@@ -22,7 +22,8 @@ class MovieScene extends Component {
   }
 
   render() {
-    const { movies, movie } = this.props;
+    const { movie } = this.props;
+    const movies = this.props.movies.filter(m => m.id !== movie.id);
     return (
       <>
         <div className="block bg-block">
