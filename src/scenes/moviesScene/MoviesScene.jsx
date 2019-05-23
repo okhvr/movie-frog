@@ -1,102 +1,105 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import './style.scss';
 
 import Header from '../../components/header/Header';
 import Search from '../../components/search/Search';
 import MoviesList from '../../components/moviesList/MoviesList';
-
-import { getMovies } from '../../api';
 import SortBlock from '../../components/sortBlock/SortBlock';
+import { searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreatorAsync, sortOptionSelectedActionCreatorAsync, clearMoviesActionCreator, clearSearchQueryActionCreator, searchQueryChangedActionCreator, searchOptionSelectedActionCreator, sortOptionSelectedActionCreator } from '../../actions/movies';
+import { searchOptions, sortOptions } from '../../constants';
 
-const sortOptions= [
-  {
-    value: 'release_date',
-    label: 'release date'
-  },
-  {
-    value: 'vote_average',
-    label: 'raiting'
+class MoviesScene extends Component {
+  componentDidMount() {
+    const query = this.props.match.params.query || '';
+    this.search(query);
   }
-];
-const searchOptions = [
-  {
-    name:'title',
-    selected: true
-  },
-  {
-    name: 'genres',
-    selected: false
-  }
-];
 
-export default class MoviesScene extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        movies: [],
-        sortOptions: sortOptions,
-        searchOptions: searchOptions,
-        sortBy: sortOptions[0],
-        search: '',
+  componentDidUpdate(prevProps) {
+    const url = this.props.match.url;
+    if (url ==='/' && url !== prevProps.match.url){
+      this.search('');
     }
   }
 
-  componentDidMount() {
-      this.refreshMovies({sortBy: this.state.sortBy});
-  }
-
-  refreshMovies = async () => {
-      const searchBy = this.state.searchOptions.find(o => o.selected);
-      const params = {
-        sortBy: this.state.sortBy,
-        searchBy: searchBy.name
-      };
-      if (this.state.search.length > 0) {
-        params.search = this.state.search
-      }
-      this.setState({
-          movies: await getMovies(params)
-      });
-  };
-
-  sort = (query) => {
-    this.setState({sortBy: query}, this.refreshMovies);
+  sort = (option) => {
+    if (!!this.props.query) {
+      this.props.sortOptionSelectAndSearch(option.value);
+    } else {
+      this.props.sortOptionSelected(option.value);
+    }    
   };
 
   search = (query) => {
-    this.setState({search: query}, this.refreshMovies);
+    if (!!query) {
+      this.props.searchQuery(query);
+      this.props.history.push(`/search/${query}`);
+    } else {
+      this.props.clearMovies();
+      this.props.clearSearch();
+      this.props.history.push(`/`);
+    }
+    
   };
 
   changeSearchBy = (option) => {
-    const searchOptions = this.state.searchOptions.map(o => o.selected = o.name === option);
-    this.setState(searchOptions);
+    if (!!this.props.query) {
+      this.props.searchOptionSelectAndSearch(option.name);
+    } else {
+      this.props.searchOptionSelected(option.name);
+    }
   };
 
   render() {
+    const { movies, searchOption, sortOption, query } = this.props;
     return (
       <>
         <div className="block bg-block">
           <section className="bg-section">
             <Header />
-            <Search searchOptions={this.state.searchOptions}
+            <Search searchOptions={searchOptions}
+              selectedSearchOption={searchOption}
               search={this.search}
+              searchInput={query}
               changeSearchBy={this.changeSearchBy}
             />
           </section>         
         </div>
         <div className="subheader">
           <div className="bg-section">
-            <p className="h5">{this.state.movies.length} movies found</p>
-            <SortBlock sort={this.sort} sortOptions={this.state.sortOptions}/>
+            <p className="h5">{movies.length} movies found</p>
+            <SortBlock sort={this.sort}
+              sortOptions={sortOptions}
+              selectedSortOption={sortOption}
+            />
           </div>
         </div>
         <section className="section">
-          <MoviesList movies={this.state.movies}/>
+          <MoviesList movies={movies}/>
         </section>
     </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const movies = state.movies.data;
+  const { searchOption, sortOption, query } = state.movies;
+  return { movies, searchOption, sortOption, query };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    searchOptionSelected: option => dispatch(searchOptionSelectedActionCreator(option)),
+    searchOptionSelectAndSearch: (option) => dispatch(searchOptionSelectedActionCreatorAsync(option)),
+    sortOptionSelected: (option) => dispatch(sortOptionSelectedActionCreator(option)),
+    sortOptionSelectAndSearch: (option) => dispatch(sortOptionSelectedActionCreatorAsync(option)),  
+    searchQuery: (query) => dispatch(searchQueryChangedActionCreatorAsync(query)),
+    clearMovies: () => dispatch(clearMoviesActionCreator()),
+    clearSearch: () => dispatch(clearSearchQueryActionCreator()),
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MoviesScene));

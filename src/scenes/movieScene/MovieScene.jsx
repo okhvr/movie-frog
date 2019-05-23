@@ -1,58 +1,65 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import './style.scss';
 
 import Header from '../../components/header/Header';
-import Search from '../../components/search/Search';
-import { getMovie, getMovies } from '../../api';
 import MovieFull from '../../components/movieFull/movieFull';
 import MoviesList from '../../components/moviesList/MoviesList';
+import { searchMovieActionCreatorAsync } from '../../actions/movies';
 
-export default class MovieScene extends Component {
+class MovieScene extends Component {
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+      this.props.getMovie(this.props.match.params.id);
+  }
 
-    this.state = {
-        movie: {},
-        movies: []
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id){
+       this.props.getMovie(this.props.match.params.id);
     }
   }
 
-  componentDidMount() {
-      this.refreshMovies();
-      this.loadMovie(this.props.match.params.id);
-  }
-
-  refreshMovies = async () => {
-      this.setState({
-          movies: await getMovies()
-      });
-  };
-  
-  loadMovie = async (id) => {
-    this.setState({movie: await getMovie(id)});
-  }
-
   render() {
+    const { movie } = this.props;
+    const movies = this.props.movies.filter(m => m.id !== movie.id);
     return (
       <>
         <div className="block bg-block">
           <section className="bg-section">
             <Header />
-            <Search />
-            <MovieFull movie={this.state.movie}/>
+            <Link to={'/'}>
+              <button className="btn btn-light btn-outline-danger toRight">Search</button>
+            </Link>
+            {movie ? <MovieFull movie={movie}/>: <div/>}
           </section>         
         </div>
         <div className="subheader">
           <div className="bg-section">
-            <p className="h5">Find by (genre)</p>
+            <p className="h5">Find by genre</p>
           </div>
         </div>
         <section className="section">
-          <MoviesList movies={this.state.movies}/>
+          {movies.length > 0 ?
+          <MoviesList movies={movies}/>:
+          <div>No similar by genres movies</div>}
         </section>
       </>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const movies = state.movies.data;
+  const movie = state.movies.movie;
+  return { movies, movie };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getMovie: (id) => dispatch(searchMovieActionCreatorAsync(id))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieScene);
