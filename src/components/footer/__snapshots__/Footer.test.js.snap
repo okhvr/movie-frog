@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component should render correctly 1`] = `
+<div
+  className="block"
+>
+  <section
+    className="bg-section"
+  >
+    <span>
+      moviefrogsroulette
+    </span>
+  </section>
+</div>
+`;
