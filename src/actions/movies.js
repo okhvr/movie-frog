@@ -30,7 +30,9 @@ const searchFailedActionCreator = error => ({
 const searchActionCreatorAsync = params => (dispatch) => {
     dispatch(searchLoadingActionCreator());
     return getMovies(params).then(
-        movies => dispatch(searchCompletedActionCreator(movies)),
+        movies => {
+            return dispatch(searchCompletedActionCreator(movies))
+        },
         error => dispatch(searchFailedActionCreator(error)),
     );
 };
@@ -43,7 +45,7 @@ const searchDefaultActionCreatorAsync = () => (dispatch, getState) => {
         search: state.query,
         sortOrder: "desc"
     };
-    dispatch(searchActionCreatorAsync(params));
+    return dispatch(searchActionCreatorAsync(params));
 };
 
 const searchQueryChangedActionCreator = query => ({
@@ -83,8 +85,8 @@ export const searchMovieActionCreator = movie => ({
 
 export const searchMovieActionCreatorAsync = id => dispatch => getMovie(id).then(
     (movie) => {
-        dispatch(searchActionCreatorAsync({ filter: movie.genres.join(',') }));
         dispatch(searchMovieActionCreator(movie));
+        return dispatch(searchActionCreatorAsync({ filter: movie.genres.join(',') }));
     },
 );
 
