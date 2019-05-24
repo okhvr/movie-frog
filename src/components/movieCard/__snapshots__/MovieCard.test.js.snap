@@ -2,7 +2,7 @@
 
 exports[`MovieCard component should match with snapshot 1`] = `
 <a
-  href="/movies/1"
+  href="/movie/1"
   onClick={[Function]}
 >
   <div
