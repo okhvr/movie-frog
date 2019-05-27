@@ -5,7 +5,10 @@ import Footer from "../footer/Footer";
 
 describe('ErrorBoundary component', () => {
   it('should catch errors', () => {
-    const wrapper = shallow(<ErrorBoundary><Footer/></ErrorBoundary>);
+    const wrapper = shallow(
+      <ErrorBoundary>
+        <Footer/>
+      </ErrorBoundary>);
     const error = new Error('hi!');
     wrapper.find(Footer).simulateError(error);
 

@@ -30,9 +30,7 @@ const searchFailedActionCreator = error => ({
 const searchActionCreatorAsync = params => (dispatch) => {
     dispatch(searchLoadingActionCreator());
     return getMovies(params).then(
-        movies => {
-            return dispatch(searchCompletedActionCreator(movies))
-        },
+        movies => dispatch(searchCompletedActionCreator(movies)),
         error => dispatch(searchFailedActionCreator(error)),
     );
 };
@@ -43,7 +41,7 @@ const searchDefaultActionCreatorAsync = () => (dispatch, getState) => {
         sortBy: state.sortOption,
         searchBy: state.searchOption,
         search: state.query,
-        sortOrder: "desc"
+        sortOrder: 'desc',
     };
     return dispatch(searchActionCreatorAsync(params));
 };

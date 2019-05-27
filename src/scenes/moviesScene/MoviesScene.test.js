@@ -4,17 +4,17 @@ import { mapStateToProps, mapDispatchToProps } from './MoviesScene';
 describe('MoviesScene wrapper component', () => {
     const movies = [
         {
-            genres: ["Action"],
+            genres: ['Action'],
             id: 1,
         },
         {
-            genres: ["Test"],
+            genres: ['Test'],
             id: 2,
-        }
+        },
     ];
 
     const searchOption = 1;
-    const  sortOption =  { name: 'a'};
+    const sortOption = { name: 'a' };
     const query = 'test';
 
     const initialState = {
@@ -22,12 +22,14 @@ describe('MoviesScene wrapper component', () => {
             data: movies,
             searchOption,
             sortOption,
-            query
-        }
+            query,
+        },
     };
 
     it('mapStateToProps should return appropriate props', () => {
-        const expectedResult = { movies, searchOption, sortOption, query };
+        const expectedResult = {
+            movies, searchOption, sortOption, query,
+        };
         const receivedResult = mapStateToProps(initialState);
         expect(receivedResult).toEqual(expectedResult);
     });
@@ -57,5 +59,5 @@ describe('MoviesScene wrapper component', () => {
 
         props.clearSearch();
         expect(dispatch.mock.calls.length).toBe(7);
-    });      
+    });
 });

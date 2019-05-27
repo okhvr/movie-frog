@@ -1,5 +1,13 @@
-import movies from "./movies";
-import { CLEAR_MOVIES, CLEAR_SEARCH, SEARCH_MOVIE_COMPLETED, SEARCH_QUERY_CHANGED, SEARCH_OPTION_SELECTED, SORT_OPTION_SELECTED, SEARCH_MOVIES_COMPLETED } from "../actions/movies";
+import movies from './movies';
+import {
+    CLEAR_MOVIES,
+    CLEAR_SEARCH,
+    SEARCH_MOVIE_COMPLETED,
+    SEARCH_QUERY_CHANGED,
+    SEARCH_OPTION_SELECTED,
+    SORT_OPTION_SELECTED,
+    SEARCH_MOVIES_COMPLETED,
+} from '../actions/movies';
 
 describe('reducers', () => {
     const state = {
@@ -10,66 +18,66 @@ describe('reducers', () => {
         movie: null,
     };
 
-    it('should clear movies', () => {    
+    it('should clear movies', () => {
         expect(movies(undefined, {
-            type: CLEAR_MOVIES
+            type: CLEAR_MOVIES,
         })).toEqual(state);
     });
 
     it('should clear search', () => {
         expect(movies(undefined, {
-            type: CLEAR_SEARCH
+            type: CLEAR_SEARCH,
         })).toEqual(state);
     });
 
     it('should handle SEARCH_MOVIES_COMPLETED', () => {
         const moviesArray = ['1', '2', '3'];
-        const expectedState = {...state, data: moviesArray};
+        const expectedState = { ...state, data: moviesArray };
         expect(movies(undefined, {
             type: SEARCH_MOVIES_COMPLETED,
-            payload: moviesArray
+            payload: moviesArray,
         })).toEqual(expectedState);
     });
 
     it('should handle SEARCH_MOVIE_COMPLETED', () => {
-        const movie = {id: 3};
-        const expectedState = {...state, movie};
+        const movie = { id: 3 };
+        const expectedState = { ...state, movie };
         expect(movies(undefined, {
             type: SEARCH_MOVIE_COMPLETED,
-            payload: movie
+            payload: movie,
         })).toEqual(expectedState);
     });
 
     it('should handle SEARCH_QUERY_CHANGED', () => {
         const query = 'test';
-        const expectedState = {...state, query};
+        const expectedState = { ...state, query };
         expect(movies(undefined, {
             type: SEARCH_QUERY_CHANGED,
-            payload: query
+            payload: query,
         })).toEqual(expectedState);
     });
 
     it('should handle SEARCH_OPTION_SELECTED', () => {
         const searchOption = 'searchOption';
-        const expectedState = {...state, searchOption};
+        const expectedState = { ...state, searchOption };
         expect(movies(undefined, {
             type: SEARCH_OPTION_SELECTED,
-            payload: searchOption
+            payload: searchOption,
         })).toEqual(expectedState);
     });
 
     it('should handle SORT_OPTION_SELECTED', () => {
         const sortOption = 'sortOption';
-        const expectedState = {...state, sortOption};
+        const expectedState = { ...state, sortOption };
         expect(movies(undefined, {
             type: SORT_OPTION_SELECTED,
-            payload: sortOption
+            payload: sortOption,
         })).toEqual(expectedState);
     });
 
     it('should return default state on random action ', () => {
         expect(movies(undefined, {
-            type: 'RANDOM_ACTION'
+            type: 'RANDOM_ACTION',
         })).toEqual(state);
     });
 });
