@@ -7,7 +7,8 @@
     "test": "jest",
     "build-dev": "set NODE_ENV=development && webpack --config webpack.config.js --mode=development",
     "build": "set NODE_ENV=production && webpack --config webpack.config.js --mode=production",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "cypress:open": "cypress open"
   },
   "author": "Olha Katsalap",
   "license": "ISC",
@@ -36,6 +37,7 @@
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.1",
     "css-loader": "^2.1.1",
+    "cypress": "^3.3.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.1",
     "eslint": "^5.3.0",
