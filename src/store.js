@@ -1,8 +1,9 @@
-import { applyMiddleware, createStore } from "redux";
-import rootReducer from "./reducers";
-import reduxThunk from "redux-thunk";
+import { applyMiddleware, createStore } from 'redux';
+import reduxThunk from 'redux-thunk';
+import rootReducer from './reducers';
 
 export default createStore(
     rootReducer,
-    applyMiddleware(reduxThunk)
+    typeof window !== 'undefined' && window.INITIAL_STATE,
+    applyMiddleware(reduxThunk),
 );

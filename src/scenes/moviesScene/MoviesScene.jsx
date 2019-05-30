@@ -12,9 +12,18 @@ import { searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreator
 import { searchOptions, sortOptions } from '../../constants';
 
 class MoviesScene extends Component {
+
+  static fetching ({ dispatch }, {query}) {
+    return [
+      dispatch(searchQueryChangedActionCreatorAsync(query || ''))
+    ];
+  }
+
   componentDidMount() {
     const query = this.props.match.params.query || '';
-    this.search(query);
+    if (this.props.query !== query) {
+      this.search(query);
+    }
   }
 
   componentDidUpdate(prevProps) {

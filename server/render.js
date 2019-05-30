@@ -28,9 +28,8 @@ export default (pathname, store, context) => {
       </head>
       <body>
           <main id="movie-app">${content}</main>
-          <script src="/dist/bundle.js">
-          window.INITIAL_STATE = ${JSON.stringify(store.getState())}
-          </script>
+          <script>window.INITIAL_STATE = ${JSON.stringify(store.getState())}</script>
+          <script src="/dist/bundle.js"></script>
       </body>
   </html>
   `;
