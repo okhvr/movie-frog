@@ -22,7 +22,14 @@ module.exports = {
             {
                 test: /\.(scss|css)$/,
                 use: [
-                    isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    isDevelopment ?
+                    'style-loader' :
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                          publicPath: './dist',
+                        },
+                      },
                     'css-loader', // translates CSS into CommonJS
                     'sass-loader' // compiles Sass to CSS, using Node Sass by default
                 ]

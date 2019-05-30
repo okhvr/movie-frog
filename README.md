@@ -7,6 +7,11 @@
     Go to:
     `http://localhost:3000/`
 
+### For SSR:
+
+    '`npm run build`'
+    '`npm run server-build`'
+    '`node server.js`'
 
 ### For development:
 

@@ -7,7 +7,8 @@
     "test": "jest",
     "build-dev": "set NODE_ENV=development && webpack --config webpack.config.js --mode=development",
     "build": "set NODE_ENV=production && webpack --config webpack.config.js --mode=production",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "server-build": "webpack --config webpack.server.config.js"
   },
   "author": "Olha Katsalap",
   "license": "ISC",
@@ -20,10 +21,12 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
+    "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
