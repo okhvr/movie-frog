@@ -1,6 +1,13 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import * as React from 'react';
 import MovieCard from '../movieCard/MovieCard';
 import styled from 'styled-components';
+import { MovieType } from '../../types';
+
+
+type MyProps = {
+  movies: MovieType[],
+};
 
 const StyledContainer = styled.div.attrs({
   className: "flex-container",
@@ -11,6 +18,7 @@ const StyledContainer = styled.div.attrs({
 `;
 
 export default class MoviesList extends Component {
+  props:MyProps;
 
   render() {
     const {movies} = this.props;

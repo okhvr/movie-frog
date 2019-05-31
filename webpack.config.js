@@ -1,12 +1,13 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const path = require('path');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
       filename: 'bundle.js',
       publicPath: "/",
@@ -32,6 +33,20 @@ module.exports = {
                 loader: 'url-loader'
             },
             {
+                test: /\.(ts|tsx)$/,
+                use: 'awesome-typescript-loader'
+            },
+            {
+                test: /\.ts$/,
+                enforce: 'pre',
+                use: [
+                    {
+                        loader: 'tslint-loader',
+                        options: {emitErrors: true},
+                    }
+                ]
+            },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
@@ -41,11 +56,12 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [ '.jsx', '.js' ]
+        extensions: ['.tsx', '.ts', '.js']
     },
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({filename: 'style.css'}),
+        new CheckerPlugin(),
         new HtmlWebpackPlugin({
             template: 'index.html',
             favicon: 'src/favicon.ico'

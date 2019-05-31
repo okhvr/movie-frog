@@ -1,6 +1,11 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import * as React from 'react';
+
+type MyState = { hasError: boolean };
 
 export default class ErrorBoundary extends Component {
+    state: MyState;
+
     constructor(props) {
       super(props);
       this.state = { hasError: false };

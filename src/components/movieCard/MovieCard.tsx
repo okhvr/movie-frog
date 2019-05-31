@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Component } from 'react';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { MovieType } from '../../types';
 
+type MyProps = {
+    movie: MovieType,
+};
 const StyledContainer = styled.div.attrs({
     className: "card",
   })`
@@ -10,6 +15,7 @@ const StyledContainer = styled.div.attrs({
   `;
 
 export default class MovieCard extends Component {
+    props: MyProps;
 
     render() {
         const {movie} = this.props;
