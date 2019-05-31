@@ -8,6 +8,7 @@ import Header from '../../components/header/Header';
 import MovieFull from '../../components/movieFull/movieFull';
 import MoviesList from '../../components/moviesList/MoviesList';
 import { searchMovieActionCreatorAsync } from '../../actions/movies';
+import { movieSelector } from '../../selectors/movieSelector';
 
 class MovieScene extends Component {
 
@@ -51,9 +52,7 @@ class MovieScene extends Component {
 }
 
 function mapStateToProps(state) {
-  const movies = state.movies.data;
-  const movie = state.movies.movie;
-  return { movies, movie };
+  return movieSelector(state);
 }
 
 function mapDispatchToProps(dispatch) {

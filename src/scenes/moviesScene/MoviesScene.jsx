@@ -10,6 +10,7 @@ import MoviesList from '../../components/moviesList/MoviesList';
 import SortBlock from '../../components/sortBlock/SortBlock';
 import { searchQueryChangedActionCreatorAsync, searchOptionSelectedActionCreatorAsync, sortOptionSelectedActionCreatorAsync, clearMoviesActionCreator, clearSearchQueryActionCreator, searchQueryChangedActionCreator, searchOptionSelectedActionCreator, sortOptionSelectedActionCreator } from '../../actions/movies';
 import { searchOptions, sortOptions } from '../../constants';
+import { moviesSelector } from '../../selectors/moviesSelectors';
 
 class MoviesScene extends Component {
   componentDidMount() {
@@ -85,9 +86,7 @@ class MoviesScene extends Component {
 }
 
 function mapStateToProps(state) {
-  const movies = state.movies.data;
-  const { searchOption, sortOption, query } = state.movies;
-  return { movies, searchOption, sortOption, query };
+  return moviesSelector(state);
 }
 
 function mapDispatchToProps(dispatch) {
