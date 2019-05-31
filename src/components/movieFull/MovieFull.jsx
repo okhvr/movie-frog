@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import './style.scss';
-
 export default class MovieFull extends Component {
     render() {
         const {movie} = this.props;
