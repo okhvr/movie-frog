@@ -11,8 +11,18 @@ import { searchMovieActionCreatorAsync } from '../../actions/movies';
 
 class MovieScene extends Component {
 
+  static fetching ({ dispatch }, {id}) {
+    return [
+      dispatch(searchMovieActionCreatorAsync(id || ''))
+    ];
+  }
+
   componentDidMount() {
-      this.props.getMovie(this.props.match.params.id);
+    const id = this.props.match.params.id;
+    const movie = this.props.movie;
+    if (!movie || id != movie.id) {
+      this.props.getMovie(id);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -23,7 +33,8 @@ class MovieScene extends Component {
 
   render() {
     const { movie } = this.props;
-    const movies = this.props.movies.filter(m => m.id !== movie.id);
+    const id = this.props.match.params.id;
+    const movies = this.props.movies.filter(m => m.id !== id);
     return (
       <>
         <div className="block bg-block">

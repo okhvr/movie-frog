@@ -1,38 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { PersistGate } from 'redux-persist/integration/react';
-import App from './App';  
+import store from './store';
+import Router from './router';  
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.scss';
+import Footer from './components/footer/Footer';
+import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
 
-const persistConfig = {
-    key: 'root',
-    storage,
-  };
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = createStore(
-    persistedReducer,
-    applyMiddleware(thunk)
-);
-
-const persistor = persistStore(store);
-
-ReactDOM.render(
+hydrate(
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        <ErrorBoundary>
             <main className="scene">
-                <App/>
+                <Router/>
+                <Footer/>
             </main>
-        </PersistGate>
+        </ErrorBoundary>
     </Provider>,
     document.getElementById('movie-app')
 );
