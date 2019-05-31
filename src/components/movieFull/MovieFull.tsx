@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import * as React from 'react';
 
-import './style.scss';
+import { MovieType } from '../../types';
+
+type MyProps = {
+    movie: MovieType,
+};
 
 export default class MovieFull extends Component {
+    props: MyProps;
+
     render() {
         const {movie} = this.props;
         return (

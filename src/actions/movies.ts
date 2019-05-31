@@ -41,7 +41,7 @@ const searchDefaultActionCreatorAsync = () => (dispatch, getState) => {
         sortBy: state.sortOption,
         searchBy: state.searchOption,
         search: state.query,
-        sortOrder: "desc"
+        sortOrder: 'desc',
     };
     dispatch(searchActionCreatorAsync(params));
 };
