@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovieCard component should match with snapshot 1`] = `
+<a
+  href="/movie/1"
+  onClick={[Function]}
+>
+  <div
+    className="card margins"
+    style={
+      Object {
+        "width": "18rem",
+      }
+    }
+  >
+    <img
+      className="card-img-top"
+      src="https://image.tmdb.org/t/p/w500/3kcEGnYBHDeqmdYf8ZRbKdfmlUy.jpg"
+    />
+    <div
+      className="card-body"
+    >
+      <h5
+        className="card-title"
+      >
+        test
+        <span
+          className="badge badge-secondary"
+        >
+          12/06/1997
+        </span>
+      </h5>
+      <h6
+        className="card-subtitle mb-2 text-muted"
+      >
+        Card subtitle
+      </h6>
+    </div>
+  </div>
+</a>
+`;

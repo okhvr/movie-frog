@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component should match with snapshot 1`] = `
+<nav
+  className="navbar-dark"
+>
+  <a
+    href="/"
+    onClick={[Function]}
+  >
+    <span
+      className="navbar-brand mb-0 h1"
+    >
+      moviefrogsroulette
+    </span>
+  </a>
+</nav>
+`;

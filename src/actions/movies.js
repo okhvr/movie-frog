@@ -41,9 +41,9 @@ const searchDefaultActionCreatorAsync = () => (dispatch, getState) => {
         sortBy: state.sortOption,
         searchBy: state.searchOption,
         search: state.query,
-        sortOrder: "desc"
+        sortOrder: 'desc',
     };
-    dispatch(searchActionCreatorAsync(params));
+    return dispatch(searchActionCreatorAsync(params));
 };
 
 const searchQueryChangedActionCreator = query => ({
@@ -83,8 +83,8 @@ export const searchMovieActionCreator = movie => ({
 
 export const searchMovieActionCreatorAsync = id => dispatch => getMovie(id).then(
     (movie) => {
-        dispatch(searchActionCreatorAsync({ filter: movie.genres.join(',') }));
         dispatch(searchMovieActionCreator(movie));
+        return dispatch(searchActionCreatorAsync({ filter: movie.genres.join(',') }));
     },
 );
 

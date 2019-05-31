@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovieFull component should match with snapshot 1`] = `
+<div
+  className="card mb-3 bg-transparent"
+>
+  <div
+    className="row no-gutters"
+  >
+    <div
+      className="col-md-4"
+    >
+      <img
+        className="card-img"
+        src="https://image.tmdb.org/t/p/w500/3kcEGnYBHDeqmdYf8ZRbKdfmlUy.jpg"
+      />
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-body"
+      >
+        <h5
+          className="card-title"
+        >
+          test
+        </h5>
+        <h5
+          className="card-title"
+        >
+          <span
+            className="badge badge-secondary"
+          >
+            12/06/1997
+          </span>
+        </h5>
+        <p
+          className="card-text"
+        >
+          testtest
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

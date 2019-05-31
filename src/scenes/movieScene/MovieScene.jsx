@@ -9,7 +9,7 @@ import MovieFull from '../../components/movieFull/movieFull';
 import MoviesList from '../../components/moviesList/MoviesList';
 import { searchMovieActionCreatorAsync } from '../../actions/movies';
 
-class MovieScene extends Component {
+export class MovieScene extends Component {
 
   componentDidMount() {
       this.props.getMovie(this.props.match.params.id);
@@ -50,13 +50,13 @@ class MovieScene extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   const movies = state.movies.data;
   const movie = state.movies.movie;
   return { movies, movie };
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     getMovie: (id) => dispatch(searchMovieActionCreatorAsync(id))
   };

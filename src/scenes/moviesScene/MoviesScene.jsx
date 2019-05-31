@@ -84,13 +84,13 @@ class MoviesScene extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   const movies = state.movies.data;
   const { searchOption, sortOption, query } = state.movies;
   return { movies, searchOption, sortOption, query };
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     searchOptionSelected: option => dispatch(searchOptionSelectedActionCreator(option)),
     searchOptionSelectAndSearch: (option) => dispatch(searchOptionSelectedActionCreatorAsync(option)),
